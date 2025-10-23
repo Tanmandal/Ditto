@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "Your Company" "\0"
-            VALUE "FileDescription", "FletProj" "\0"
+            VALUE "FileDescription", "Ditto" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "fletproj" "\0"
+            VALUE "InternalName", "ditto" "\0"
             VALUE "LegalCopyright", "Copyright (c) 2023 Your Company" "\0"
-            VALUE "OriginalFilename", "fletproj.exe" "\0"
-            VALUE "ProductName", "FletProj" "\0"
+            VALUE "OriginalFilename", "ditto.exe" "\0"
+            VALUE "ProductName", "Ditto" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
