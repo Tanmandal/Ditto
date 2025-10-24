@@ -1,6 +1,6 @@
 import flet as ft
 import json
-import time
+from datetime import datetime, timedelta
 
 API_BASE_URL = "https://short-url.leapcell.app"
 TOKEN_REFRESH_TIME = 8
@@ -31,13 +31,13 @@ async def refresh_token(page:ft.Page):
     if response['ok']:
         data = response['body']
         page.session_data.access_token = data.get("access_token")
-        page.session_data.token_time=time.time()
+        page.session_data.token_time=datetime.now()
 
 async def make_request(page: ft.Page, url, method="GET", data=None, timeout=10, auth_token=None,flag=True):
     """
     HTTP request that works in both desktop and web builds
     """
-    if flag and page.session_data.token_time and (time.time()-page.session_data.token_time)/60 > TOKEN_REFRESH_TIME:
+    if flag and page.session_data.token_time and (datetime.now()-page.session_data.token_time).total_seconds()/60 > TOKEN_REFRESH_TIME:
         await refresh_token(page)
     try:
         import sys
@@ -923,7 +923,7 @@ def show_login_page(page: ft.Page):
                 data = response['body']
                 page.session_data.access_token = data.get("access_token")
                 page.session_data.current_alias = alias_field.value
-                page.session_data.token_time =time.time()
+                page.session_data.token_time =datetime.now()
 
                 status_text.value = "Login successful!"
                 status_text.color = "#5ab896"

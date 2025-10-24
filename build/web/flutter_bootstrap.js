@@ -11,7 +11,7 @@ _flutter.buildConfig = {"engineRevision":"18b71d647a292a980abb405ac7d16fe1f0b204
 
 _flutter.loader.load({
     serviceWorkerSettings: {
-        serviceWorkerVersion: "71680737",
+        serviceWorkerVersion: "3006967401",
     },
     onEntrypointLoaded: async function (engineInitializer) {
         const appRunner = await engineInitializer.initializeEngine({useColorEmoji: useColorEmoji});

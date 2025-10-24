@@ -1,4 +1,4 @@
-package com.flet.ditto
+package com.flet.fletproj
 
 import io.flutter.embedding.android.FlutterActivity
 
