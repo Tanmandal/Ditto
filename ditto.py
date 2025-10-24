@@ -1,13 +1,15 @@
 import flet as ft
 import json
+import time
 
 API_BASE_URL = "https://short-url.leapcell.app"
-
+TOKEN_REFRESH_TIME = 8
 
 class SessionData:
     def __init__(self):
         self.access_token = None
         self.current_alias = None
+        self.token_time = None
 
 
 # Ditto Pokemon image
@@ -18,118 +20,25 @@ ditto_image = ft.Image(
     fit=ft.ImageFit.CONTAIN,
 )
 
+async def refresh_token(page:ft.Page):
+    response = await make_request(
+        page,
+        f"{API_BASE_URL}/refresh_token",
+        method="GET",
+        auth_token=page.session_data.access_token,
+        flag=False
+    )
+    if response['ok']:
+        data = response['body']
+        page.session_data.access_token = data.get("access_token")
+        page.session_data.token_time=time.time()
 
-async def make_request(page: ft.Page, url, method="GET", data=None, timeout=10, auth_token=None):
+async def make_request(page: ft.Page, url, method="GET", data=None, timeout=10, auth_token=None,flag=True):
     """
     HTTP request that works in both desktop and web builds
     """
-    try:
-        import sys
-        if 'pyodide' in sys.modules:
-            # Running in browser - use JavaScript fetch
-            return await make_request_js(page, url, method, data, auth_token)
-        else:
-            # Running in desktop - use urllib
-            return make_request_urllib(url, method, data, timeout, auth_token)
-    except Exception as e:
-        return {
-            'ok': False,
-            'status': 0,
-            'body': {'detail': f'Error: {str(e)}'}
-        }
-
-
-async def make_request_js(page: ft.Page, url, method="GET", data=None, auth_token=None):
-    """Use JavaScript fetch for browser environment"""
-    import js
-    from pyodide.ffi import to_js, JsException
-
-    headers = {'Content-Type': 'application/json'}
-
-    if auth_token:
-        headers['Authorization'] = f'Bearer {auth_token}'
-
-    options = {
-        'method': method,
-        'headers': headers
-    }
-
-    if data:
-        options['body'] = json.dumps(data)
-
-    try:
-        # Await the fetch promise
-        response = await js.fetch(url, to_js(options))
-
-        # Await the text promise
-        body_text = await response.text()
-
-        return {
-            'ok': response.ok,
-            'status': response.status,
-            'body': json.loads(body_text) if body_text else {}
-        }
-    except JsException as e:
-        return {
-            'ok': False,
-            'status': 0,
-            'body': {'detail': f'JS Fetch error: {str(e)}'}
-        }
-    except Exception as e:
-        return {
-            'ok': False,
-            'status': 0,
-            'body': {'detail': f'Error: {str(e)}'}
-        }
-
-
-def make_request_urllib(url, method="GET", data=None, timeout=10, auth_token=None):
-    """Original urllib implementation for desktop"""
-    import urllib.request
-    import urllib.error
-
-    try:
-        headers = {'Content-Type': 'application/json'} if data else {}
-
-        if auth_token:
-            headers['Authorization'] = f'Bearer {auth_token}'
-
-        if data:
-            data = json.dumps(data).encode('utf-8')
-
-        req = urllib.request.Request(
-            url,
-            data=data,
-            headers=headers,
-            method=method
-        )
-
-        with urllib.request.urlopen(req, timeout=timeout) as response:
-            body = response.read().decode('utf-8')
-            return {
-                'ok': 200 <= response.status < 300,
-                'status': response.status,
-                'body': json.loads(body) if body else {}
-            }
-    except urllib.error.HTTPError as e:
-        body = e.read().decode('utf-8')
-        return {
-            'ok': False,
-            'status': e.code,
-            'body': json.loads(body) if body else {'detail': str(e)}
-        }
-    except Exception as e:
-        return {
-            'ok': False,
-            'status': 0,
-            'body': {'detail': f'Error: {str(e)}'}
-        }
-
-
-async def make_request(page: ft.Page, url, method="GET", data=None, timeout=10, auth_token=None):
-    """
-    HTTP request that works in both desktop and web builds
-    """
+    if flag and page.session_data.token_time and (time.time()-page.session_data.token_time)/60 > TOKEN_REFRESH_TIME:
+        await refresh_token(page)
     try:
         import sys
         if 'pyodide' in sys.modules:
@@ -274,8 +183,7 @@ async def show_manage_alias_page(page: ft.Page):
         page.update()
 
     def on_logout_click(e):
-        page.session_data.access_token = None
-        page.session_data.current_alias = None
+        page.session_data = SessionData()
         page.controls.clear()
         show_login_page(page)
         page.update()
@@ -699,7 +607,7 @@ async def show_manage_alias_page(page: ft.Page):
 
     save_password_button = ft.ElevatedButton(
         text="Save Password",
-        width=240,
+        width=200,
         height=45,
         bgcolor="#5ab896",
         color="#ffffff",
@@ -711,7 +619,7 @@ async def show_manage_alias_page(page: ft.Page):
 
     cancel_password_button = ft.ElevatedButton(
         text="Cancel",
-        width=240,
+        width=200,
         height=45,
         bgcolor="#3a3a3a",
         color="#ffffff",
@@ -741,6 +649,7 @@ async def show_manage_alias_page(page: ft.Page):
                     [save_password_button, cancel_password_button],
                     spacing=20,
                     alignment=ft.MainAxisAlignment.CENTER,
+                    wrap=True,
                 ),
             ],
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -920,6 +829,7 @@ async def show_manage_alias_page(page: ft.Page):
                         [edit_password_button, delete_button],
                         spacing=20,
                         alignment=ft.MainAxisAlignment.CENTER,
+                        wrap=True,
                     ),
                 ],
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -1013,6 +923,7 @@ def show_login_page(page: ft.Page):
                 data = response['body']
                 page.session_data.access_token = data.get("access_token")
                 page.session_data.current_alias = alias_field.value
+                page.session_data.token_time =time.time()
 
                 status_text.value = "Login successful!"
                 status_text.color = "#5ab896"
