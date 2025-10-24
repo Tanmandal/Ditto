@@ -18,20 +18,7 @@ It connects to the backend API — **[Short-URL](https://github.com/Tanmandal/Sh
   * Change password
   * Delete alias permanently
 * 🔁 **Auto Token Refresh** — Automatically refreshes access tokens after expiry.
-* 🌐 **Cross-Platform** — Runs both as a web app and desktop app via Flet.
 * 🎨 **Minimal UI** — Clean, dark-themed design with real-time feedback.
-
----
-
-## 🧩 Project Structure
-
-```
-Ditto/
-│
-├── ditto.py               # Main Flet application
-├── requirements.txt       # Dependencies (see below)
-└── README.md              # This file
-```
 
 ---
 
