@@ -13,7 +13,7 @@ dependency_overrides:
   serious_python:
     git:
       path: src/serious_python
-      ref: android-16k
+      ref: main
       url: https://github.com/flet-dev/serious-python.git
   wakelock_plus: ^1.2.10
   web: ^1.0.0
@@ -66,6 +66,6 @@ flutter_native_splash:
   image_web: images/icon.png
   ios: true
   web: true
-name: fletproj
+name: ditto
 publish_to: none
 version: 1.0.0+1
