@@ -441,8 +441,13 @@ async def show_manage_alias_page(page: ft.Page):
     async def on_toggle_status_click(e):
         try:
             is_active = alias_data.get("url_state", False)
-            endpoint = "pause" if is_active else "resume"
-            status_text.value = endpoint+"ing..."
+            if is_active:
+                endpoint = "pause"
+                status_text.value = "Pausing..."
+            else:
+                endpoint = "resume"
+                status_text.value = "Resuming..."
+
             status_text.color = "#5ab896"
             page.update()
             response = await make_request(
