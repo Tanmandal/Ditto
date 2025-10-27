@@ -724,7 +724,7 @@ async def show_manage_alias_page(page: ft.Page):
             try:
                 response = await make_request(
                     page,
-                    f"{API_BASE_URL}/delete/{page.session_data.current_alias}",
+                    f"{API_BASE_URL}/delete",
                     method="DELETE",
                     auth_token=page.session_data.access_token
                 )
