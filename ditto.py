@@ -335,7 +335,9 @@ async def show_manage_alias_page(page: ft.Page):
             status_text.color = "#ff6b6b"
             page.update()
             return
-
+        status_text.value = "Updating URL..."
+        status_text.color = "#5ab896"
+        page.update()
         try:
             response = await make_request(
                 page,
@@ -440,7 +442,9 @@ async def show_manage_alias_page(page: ft.Page):
         try:
             is_active = alias_data.get("url_state", False)
             endpoint = "pause" if is_active else "resume"
-
+            status_text.value = endpoint+"ing..."
+            status_text.color = "#5ab896"
+            page.update()
             response = await make_request(
                 page,
                 f"{API_BASE_URL}/{endpoint}",
@@ -907,7 +911,9 @@ def show_login_page(page: ft.Page):
             status_text.color = "#ff6b6b"
             page.update()
             return
-
+        status_text.value = "Loging in..."
+        status_text.color = "#5ab896"
+        page.update()
         try:
             response = await make_request(
                 page,
@@ -1140,6 +1146,9 @@ def show_main_page(page: ft.Page):
                 short_url_text.value = ""
                 short_url_text.data = ""
             else:
+                status_text.value = "Shrinking..."
+                status_text.color = "#5ab896"
+                page.update()
                 try:
                     response = await make_request(
                         page,
@@ -1254,15 +1263,35 @@ def show_main_page(page: ft.Page):
 
 
 async def connection(page: ft.Page):
+    status_text = ft.Text(
+        "Loading...",
+        color="#ff6b6b",
+        size=20,
+        text_align=ft.TextAlign.CENTER,
+    )
+    page.add(
+        ft.Container(
+            content=ft.Column(
+                [
+                    status_text,
+                ],
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                alignment=ft.MainAxisAlignment.CENTER,
+            ),
+            padding=40,
+            alignment=ft.alignment.center,
+        )
+    )
+    page.update()
     try:
         response = await make_request(page, f"{API_BASE_URL}/health", timeout=10)
+        page.controls.clear()
         if response['ok']:
             show_main_page(page)
         else:
             show_down_page(page)
     except Exception:
         show_down_page(page)
-
 
 async def main(page: ft.Page):
     page.title = "Ditto"
