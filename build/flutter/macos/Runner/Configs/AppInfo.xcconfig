@@ -4,11 +4,11 @@
 // future. If not, the values below would default to using the project name when this becomes a
 // 'flutter create' template.
 
-// The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = Ditto
+// The application's bundle name on disk.
+PRODUCT_NAME = FletProj
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.flet.ditto
+PRODUCT_BUNDLE_IDENTIFIER = com.flet.fletproj
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright (c) 2023 Your Company. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright (c) 2026 Your Company. All rights reserved.

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flet/flet.dart';
 import 'package:flutter/foundation.dart';
@@ -9,12 +10,16 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:serious_python/serious_python.dart';
-import 'package:url_strategy/url_strategy.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:window_manager/window_manager.dart';
 
 import "python.dart";
 
+
+
 /*
+
+
 
 
 
@@ -25,11 +30,10 @@ show_boot_screen: False
 boot_screen_message: None
 show_startup_screen: False
 startup_screen_message: None
+hide_window_on_start: None
 */
 
-
-
-const bool isProduction = bool.fromEnvironment('dart.vm.product');
+const bool isRelease = bool.fromEnvironment('dart.vm.product');
 
 const assetPath = "app/app.zip";
 const pythonModuleName = "ditto";
@@ -37,8 +41,9 @@ final showAppBootScreen = bool.tryParse("False".toLowerCase()) ?? false;
 const appBootScreenMessage = 'Preparing the app for its first launch…';
 final showAppStartupScreen = bool.tryParse("False".toLowerCase()) ?? false;
 const appStartupScreenMessage = 'Getting things ready…';
+final hideWindowOnStart = bool.tryParse("None".toLowerCase()) ?? false;
 
-List<CreateControlFactory> createControlFactories = [
+List<FletExtension> extensions = [
 
 ];
 
@@ -49,10 +54,22 @@ List<String> _args = [];
 String pageUrl = "";
 String assetsDir = "";
 String appDir = "";
-Map<String, String> environmentVariables = {};
+Map<String, String> environmentVariables = Map.from(Platform.environment);
 
 void main(List<String> args) async {
+
+  FletDeepLinkingBootstrap.install();
+
   _args = List<String>.from(args);
+
+  var devPageUrl = const String.fromEnvironment("FLET_PAGE_URL");
+  if (devPageUrl != "") {
+    _args.addAll([devPageUrl, "--debug"]);
+  }
+
+  for (var ext in extensions) {
+    ext.ensureInitialized();
+  }
 
   runApp(FutureBuilder(
       future: prepareApp(),
@@ -65,7 +82,7 @@ void main(List<String> args) async {
                   assetsDir: assetsDir,
                   showAppStartupScreen: showAppStartupScreen,
                   appStartupScreenMessage: appStartupScreenMessage,
-                  createControlFactories: createControlFactories)
+                  extensions: extensions)
               : FutureBuilder(
                   future: runPythonApp(args),
                   builder:
@@ -73,7 +90,7 @@ void main(List<String> args) async {
                     if (snapshot.hasData || snapshot.hasError) {
                       // error or premature finish
                       return MaterialApp(
-                        home: ErrorScreen(
+                        builder: (context, _) => ErrorScreen(
                             title: "Error running app",
                             text: snapshot.data ?? snapshot.error.toString()),
                       );
@@ -84,41 +101,41 @@ void main(List<String> args) async {
                           assetsDir: assetsDir,
                           showAppStartupScreen: showAppStartupScreen,
                           appStartupScreenMessage: appStartupScreenMessage,
-                          createControlFactories: createControlFactories);
+                          extensions: extensions);
                     }
                   });
         } else if (snapshot.hasError) {
           // error
           return MaterialApp(
-              home: ErrorScreen(
+              builder: (context, _) => ErrorScreen(
                   title: "Error starting app",
                   text: snapshot.error.toString()));
         } else {
           // loading
-          return MaterialApp(home: showAppBootScreen ? const BootScreen() : const BlankScreen());
+          return MaterialApp(
+              builder: (context, _) => showAppBootScreen ? const BootScreen() : const BlankScreen());
         }
       }));
 }
 
 Future prepareApp() async {
-  if (!_args.contains("--debug")) {
+  if (!_args.contains("--debug") && isRelease) {
     // ignore: avoid_returning_null_for_void
     debugPrint = (String? message, {int? wrapWidth}) => null;
   } else {
     _args.remove("--debug");
   }
 
-  await setupDesktop();
-
-  
+  await setupDesktop(hideWindowOnStart: hideWindowOnStart);
 
   if (kIsWeb) {
     // web mode - connect via HTTP
     pageUrl = Uri.base.toString();
     var routeUrlStrategy = getFletRouteUrlStrategy();
     if (routeUrlStrategy == "path") {
-      setPathUrlStrategy();
+      usePathUrlStrategy();
     }
+    assetsDir = getAssetsDir();
   } else if (_args.isNotEmpty && isDesktopPlatform()) {
     // developer mode
     debugPrint("Flet app is running in Developer mode");
@@ -160,25 +177,29 @@ Future prepareApp() async {
       }
     }
 
-    environmentVariables["FLET_APP_STORAGE_DATA"] = appDataPath;
-    environmentVariables["FLET_APP_STORAGE_TEMP"] = appTempPath;
+    environmentVariables.putIfAbsent("FLET_APP_STORAGE_DATA", () => appDataPath);
+    environmentVariables.putIfAbsent("FLET_APP_STORAGE_TEMP", () => appTempPath);
 
     outLogFilename = path.join(appTempPath, "console.log");
-    environmentVariables["FLET_APP_CONSOLE"] = outLogFilename;
+    environmentVariables.putIfAbsent("FLET_APP_CONSOLE", () => outLogFilename);
 
-    environmentVariables["FLET_PLATFORM"] =
-        defaultTargetPlatform.name.toLowerCase();
+    environmentVariables.putIfAbsent(
+        "FLET_PLATFORM", () => defaultTargetPlatform.name.toLowerCase());
 
     if (defaultTargetPlatform == TargetPlatform.windows) {
       // use TCP on Windows
       var tcpPort = await getUnusedPort();
       pageUrl = "tcp://localhost:$tcpPort";
-      environmentVariables["FLET_SERVER_PORT"] = tcpPort.toString();
+      environmentVariables.putIfAbsent("FLET_SERVER_PORT", () => tcpPort.toString());
     } else {
       // use UDS on other platforms
       pageUrl = "flet_$pid.sock";
-      environmentVariables["FLET_SERVER_UDS_PATH"] = pageUrl;
+      environmentVariables.putIfAbsent("FLET_SERVER_UDS_PATH", () => pageUrl);
     }
+  }
+
+  if (!kIsWeb && assetsDir.isNotEmpty) {
+    environmentVariables.putIfAbsent("FLET_ASSETS_DIR", () => assetsDir);
   }
 
   return "";
@@ -214,7 +235,7 @@ Future<String?> runPythonApp(List<String> args) async {
     debugPrint('Python output Socket Server is listening on $socketAddr');
   }
 
-  environmentVariables["FLET_PYTHON_CALLBACK_SOCKET_ADDR"] = socketAddr;
+  environmentVariables.putIfAbsent("FLET_PYTHON_CALLBACK_SOCKET_ADDR", () => socketAddr);
 
   void closeOutServer() async {
     outSocketServer.close();
@@ -351,26 +372,4 @@ Future<int> getUnusedPort() {
     socket.close();
     return port;
   });
-}
-
-Future setupDesktop() async {
-  if (isDesktopPlatform()) {
-    WidgetsFlutterBinding.ensureInitialized();
-    await windowManager.ensureInitialized();
-
-    Map<String, String> env = Platform.environment;
-    var hideWindowOnStart = env["FLET_HIDE_WINDOW_ON_START"];
-    var hideAppOnStart = env["FLET_HIDE_APP_ON_START"];
-    debugPrint("hideWindowOnStart: $hideWindowOnStart");
-    debugPrint("hideAppOnStart: $hideAppOnStart");
-
-    await windowManager.waitUntilReadyToShow(null, () async {
-      if (hideWindowOnStart == null && hideAppOnStart == null) {
-        await windowManager.show();
-        await windowManager.focus();
-      } else if (hideAppOnStart != null) {
-        await windowManager.setSkipTaskbar(true);
-      }
-    });
-  }
 }

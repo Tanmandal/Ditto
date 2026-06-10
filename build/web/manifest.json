@@ -1,6 +1,6 @@
 {
-    "name": "Ditto",
-    "short_name": "ditto",
+    "name": "FletProj",
+    "short_name": "fletproj",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#FFFFFF",

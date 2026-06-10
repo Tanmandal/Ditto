@@ -2,12 +2,12 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-# The name of the executable created for the application. Change this to change
-# the on-disk name of your application.
-set(BINARY_NAME "ditto")
+# The name of the application target. The on-disk name is set as OUTPUT_NAME to keep
+# Flutter tooling behavior intact.
+set(BINARY_NAME "fletproj")
 # The unique GTK application identifier for this application. See:
 # https://wiki.gnome.org/HowDoI/ChooseApplicationID
-set(APPLICATION_ID "com.flet.ditto")
+set(APPLICATION_ID "com.flet.fletproj")
 
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.
@@ -73,7 +73,6 @@ apply_standard_settings(${BINARY_NAME})
 # Add dependency libraries. Add any application-specific dependencies here.
 target_link_libraries(${BINARY_NAME} PRIVATE flutter)
 target_link_libraries(${BINARY_NAME} PRIVATE PkgConfig::GTK)
-target_link_libraries(${BINARY_NAME} PRIVATE ${MIMALLOC_LIB})
 
 # Run the Flutter tool portions of the build. This must not be removed.
 add_dependencies(${BINARY_NAME} flutter_assemble)
@@ -84,6 +83,7 @@ add_dependencies(${BINARY_NAME} flutter_assemble)
 # the default top-level location.
 set_target_properties(${BINARY_NAME}
   PROPERTIES
+  OUTPUT_NAME "FletProj"
   RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/intermediates_do_not_run"
 )
 
@@ -91,6 +91,15 @@ set_target_properties(${BINARY_NAME}
 # Generated plugin build rules, which manage building the plugins and adding
 # them to the application.
 include(flutter/generated_plugins.cmake)
+
+# Link mimalloc when media_kit_libs_linux exposes it. This must happen after
+# generated plugins are included so MIMALLOC_LIB is initialized.
+# mimalloc.o references pthread_*, so pair it with Threads::Threads — modern
+# ld --as-needed won't pull libpthread in transitively through other DSOs.
+if(MIMALLOC_LIB)
+  find_package(Threads REQUIRED)
+  target_link_libraries(${BINARY_NAME} PRIVATE ${MIMALLOC_LIB} Threads::Threads)
+endif()
 
 
 # === Installation ===

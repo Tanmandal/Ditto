@@ -2,7 +2,7 @@ import flet as ft
 import json
 from datetime import datetime, timedelta
 
-API_BASE_URL = "https://short-url.leapcell.app"
+API_BASE_URL = "https://dit-to.vercel.app"
 TOKEN_REFRESH_TIME = 8
 
 class SessionData:
