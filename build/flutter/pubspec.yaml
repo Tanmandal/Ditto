@@ -1,19 +1,18 @@
 dependencies:
-  cupertino_icons: ^1.0.8
-  flet: 0.85.1
+  cupertino_icons: ^1.0.6
   flutter:
     sdk: flutter
-  flutter_web_plugins:
-    sdk: flutter
-  package_info_plus: ^9.0.0
+  package_info_plus: ^8.0.2
   path: ^1.9.0
   path_provider: ^2.1.4
-  serious_python: 1.0.0
-  window_manager: ^0.5.1
+  serious_python: 0.9.11
+  url_strategy: ^0.2.0
+  window_manager: ^0.4.3
 dependency_overrides:
-  connectivity_plus: 7.0.0
-  device_info_plus: 12.3.0
-  flet: 0.85.1
+  flet: 0.28.3
+  wakelock_plus: ^1.2.10
+  web: ^1.0.0
+  window_manager: ^0.4.3
 description: ''
 dev_dependencies:
   flutter_launcher_icons: ^0.14.1
@@ -62,6 +61,6 @@ flutter_native_splash:
   image_web: images/icon.png
   ios: true
   web: true
-name: fletproj
+name: ditto
 publish_to: none
 version: 1.0.0+1

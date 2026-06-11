@@ -3088,7 +3088,7 @@
 3087:std::__2::basic_string<char\2c\20std::__2::char_traits<char>\2c\20std::__2::allocator<char>>::__grow_by_without_replace\5babi:nn180100\5d\28unsigned\20long\2c\20unsigned\20long\2c\20unsigned\20long\2c\20unsigned\20long\2c\20unsigned\20long\2c\20unsigned\20long\29
 3088:std::__2::basic_string<char16_t\2c\20std::__2::char_traits<char16_t>\2c\20std::__2::allocator<char16_t>>::basic_string\28std::__2::basic_string<char16_t\2c\20std::__2::char_traits<char16_t>\2c\20std::__2::allocator<char16_t>>\20const&\29
 3089:std::__2::basic_streambuf<char\2c\20std::__2::char_traits<char>>::~basic_streambuf\28\29
-3090:std::__2::basic_streambuf<char\2c\20std::__2::char_traits<char>>::step\5babi:nn180100\5d\28char*\2c\20char*\29
+3090:std::__2::basic_streambuf<char\2c\20std::__2::char_traits<char>>::setp\5babi:nn180100\5d\28char*\2c\20char*\29
 3091:std::__2::basic_istream<char\2c\20std::__2::char_traits<char>>::~basic_istream\28\29
 3092:std::__2::basic_istream<char\2c\20std::__2::char_traits<char>>::sentry::sentry\28std::__2::basic_istream<char\2c\20std::__2::char_traits<char>>&\2c\20bool\29
 3093:std::__2::basic_iostream<char\2c\20std::__2::char_traits<char>>::~basic_iostream\28\29_14565
@@ -3328,7 +3328,7 @@
 3327:portable::PQish_k\28skcms_TransferFunction\20const*\2c\20unsigned\20long\2c\20unsigned\20long\2c\20std::byte*&\2c\20float&\2c\20float&\2c\20float&\2c\20float&\2c\20float&\2c\20float&\2c\20float&\2c\20float&\29::'lambda'\28float\29::operator\28\29\28float\29\20const
 3328:portable::HLGish_k\28skcms_TransferFunction\20const*\2c\20unsigned\20long\2c\20unsigned\20long\2c\20std::byte*&\2c\20float&\2c\20float&\2c\20float&\2c\20float&\2c\20float&\2c\20float&\2c\20float&\2c\20float&\29::'lambda'\28float\29::operator\28\29\28float\29\20const
 3329:portable::HLGinvish_k\28skcms_TransferFunction\20const*\2c\20unsigned\20long\2c\20unsigned\20long\2c\20std::byte*&\2c\20float&\2c\20float&\2c\20float&\2c\20float&\2c\20float&\2c\20float&\2c\20float&\2c\20float&\29::'lambda'\28float\29::operator\28\29\28float\29\20const
-3330:points_are_collinear_and_b_is_middle\28SkPoint\20const&\2c\20SkPoint\20const&\2c\20SkPoint\20const&\2c\20float*\29
+3330:points_are_colinear_and_b_is_middle\28SkPoint\20const&\2c\20SkPoint\20const&\2c\20SkPoint\20const&\2c\20float*\29
 3331:png_zlib_inflate
 3332:png_inflate_read
 3333:png_inflate_claim
@@ -5580,7 +5580,7 @@
 5579:hb_lazy_loader_t<OT::COLR\2c\20hb_table_lazy_loader_t<OT::COLR\2c\2035u\2c\20true>\2c\20hb_face_t\2c\2035u\2c\20hb_blob_t>::get\28\29\20const
 5580:hb_lazy_loader_t<OT::CBDT_accelerator_t\2c\20hb_face_lazy_loader_t<OT::CBDT_accelerator_t\2c\2037u>\2c\20hb_face_t\2c\2037u\2c\20OT::CBDT_accelerator_t>::get_stored\28\29\20const
 5581:hb_lazy_loader_t<OT::CBDT_accelerator_t\2c\20hb_face_lazy_loader_t<OT::CBDT_accelerator_t\2c\2037u>\2c\20hb_face_t\2c\2037u\2c\20OT::CBDT_accelerator_t>::do_destroy\28OT::CBDT_accelerator_t*\29
-5582:hb_lazy_loader_t<AAT::track\2c\20hb_table_lazy_loader_t<AAT::track\2c\2032u\2c\20false>\2c\20hb_face_t\2c\2032u\2c\20hb_blob_t>::get\28\29\20const
+5582:hb_lazy_loader_t<AAT::trak\2c\20hb_table_lazy_loader_t<AAT::trak\2c\2032u\2c\20false>\2c\20hb_face_t\2c\2032u\2c\20hb_blob_t>::get\28\29\20const
 5583:hb_lazy_loader_t<AAT::morx\2c\20hb_table_lazy_loader_t<AAT::morx\2c\2028u\2c\20false>\2c\20hb_face_t\2c\2028u\2c\20hb_blob_t>::get_stored\28\29\20const
 5584:hb_lazy_loader_t<AAT::morx\2c\20hb_table_lazy_loader_t<AAT::morx\2c\2028u\2c\20false>\2c\20hb_face_t\2c\2028u\2c\20hb_blob_t>::get\28\29\20const
 5585:hb_lazy_loader_t<AAT::mort\2c\20hb_table_lazy_loader_t<AAT::mort\2c\2029u\2c\20false>\2c\20hb_face_t\2c\2029u\2c\20hb_blob_t>::get_stored\28\29\20const
@@ -5885,7 +5885,7 @@
 5884:bool\20OT::OffsetTo<OT::FeatureVariations\2c\20OT::IntType<unsigned\20int\2c\204u>\2c\20true>::sanitize<>\28hb_sanitize_context_t*\2c\20void\20const*\29\20const
 5885:bool\20OT::OffsetTo<OT::FeatureParams\2c\20OT::IntType<unsigned\20short\2c\202u>\2c\20true>::sanitize<unsigned\20int>\28hb_sanitize_context_t*\2c\20void\20const*\2c\20unsigned\20int&&\29\20const
 5886:bool\20OT::OffsetTo<OT::ChainRuleSet<OT::Layout::SmallTypes>\2c\20OT::IntType<unsigned\20short\2c\202u>\2c\20true>::sanitize<>\28hb_sanitize_context_t*\2c\20void\20const*\29\20const
-5887:bool\20OT::OffsetTo<AAT::TrackData\2c\20OT::IntType<unsigned\20short\2c\202u>\2c\20true>::sanitize<AAT::track\20const*>\28hb_sanitize_context_t*\2c\20void\20const*\2c\20AAT::track\20const*&&\29\20const
+5887:bool\20OT::OffsetTo<AAT::TrackData\2c\20OT::IntType<unsigned\20short\2c\202u>\2c\20true>::sanitize<AAT::trak\20const*>\28hb_sanitize_context_t*\2c\20void\20const*\2c\20AAT::trak\20const*&&\29\20const
 5888:bool\20OT::OffsetTo<AAT::Lookup<OT::IntType<unsigned\20int\2c\204u>>\2c\20OT::IntType<unsigned\20int\2c\204u>\2c\20false>::sanitize<>\28hb_sanitize_context_t*\2c\20void\20const*\29\20const
 5889:bool\20OT::GSUBGPOS::sanitize<OT::Layout::GSUB_impl::SubstLookup>\28hb_sanitize_context_t*\29\20const
 5890:bool\20OT::GSUBGPOS::sanitize<OT::Layout::GPOS_impl::PosLookup>\28hb_sanitize_context_t*\29\20const
@@ -6528,7 +6528,7 @@
 6527:SkRuntimeEffect::ChildPtr::shader\28\29\20const
 6528:SkRuntimeEffect::ChildPtr::colorFilter\28\29\20const
 6529:SkRuntimeEffect::ChildPtr::blender\28\29\20const
-6530:SkRgnBuilder::collapseWithPrev\28\29
+6530:SkRgnBuilder::collapsWithPrev\28\29
 6531:SkResourceCache::release\28SkResourceCache::Rec*\29
 6532:SkResourceCache::PostPurgeSharedID\28unsigned\20long\20long\29
 6533:SkResourceCache::NewCachedData\28unsigned\20long\29
@@ -7673,7 +7673,7 @@
 7672:ActiveEdgeList::remove\28SkPoint\20const&\2c\20SkPoint\20const&\2c\20unsigned\20short\2c\20unsigned\20short\29
 7673:ActiveEdgeList::insert\28SkPoint\20const&\2c\20SkPoint\20const&\2c\20unsigned\20short\2c\20unsigned\20short\29
 7674:ActiveEdgeList::allocate\28SkPoint\20const&\2c\20SkPoint\20const&\2c\20unsigned\20short\2c\20unsigned\20short\29
-7675:AAT::track::sanitize\28hb_sanitize_context_t*\29\20const
+7675:AAT::trak::sanitize\28hb_sanitize_context_t*\29\20const
 7676:AAT::mortmorx<AAT::ObsoleteTypes\2c\201836020340u>::sanitize\28hb_sanitize_context_t*\29\20const
 7677:AAT::mortmorx<AAT::ExtendedTypes\2c\201836020344u>::sanitize\28hb_sanitize_context_t*\29\20const
 7678:AAT::ltag::sanitize\28hb_sanitize_context_t*\29\20const
@@ -9544,8 +9544,8 @@
 9543:pop_arg_long_double
 9544:png_read_filter_row_up
 9545:png_read_filter_row_sub
-9546:png_read_filter_row_path_multibyte_pixel
-9547:png_read_filter_row_path_1byte_pixel
+9546:png_read_filter_row_paeth_multibyte_pixel
+9547:png_read_filter_row_paeth_1byte_pixel
 9548:png_read_filter_row_avg
 9549:picture_getCullRect
 9550:pictureRecorder_endRecording

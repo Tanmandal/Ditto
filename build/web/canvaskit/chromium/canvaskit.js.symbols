@@ -2519,7 +2519,7 @@
 2518:std::__2::basic_string<char\2c\20std::__2::char_traits<char>\2c\20std::__2::allocator<char>>::__make_iterator\5babi:nn180100\5d\28char*\29
 2519:std::__2::basic_string<char\2c\20std::__2::char_traits<char>\2c\20std::__2::allocator<char>>::__grow_by_without_replace\5babi:nn180100\5d\28unsigned\20long\2c\20unsigned\20long\2c\20unsigned\20long\2c\20unsigned\20long\2c\20unsigned\20long\2c\20unsigned\20long\29
 2520:std::__2::basic_string<char16_t\2c\20std::__2::char_traits<char16_t>\2c\20std::__2::allocator<char16_t>>::__init_copy_ctor_external\28char16_t\20const*\2c\20unsigned\20long\29
-2521:std::__2::basic_streambuf<char\2c\20std::__2::char_traits<char>>::step\5babi:nn180100\5d\28char*\2c\20char*\29
+2521:std::__2::basic_streambuf<char\2c\20std::__2::char_traits<char>>::setp\5babi:nn180100\5d\28char*\2c\20char*\29
 2522:std::__2::basic_streambuf<char\2c\20std::__2::char_traits<char>>::basic_streambuf\28\29
 2523:std::__2::basic_ostream<char\2c\20std::__2::char_traits<char>>::~basic_ostream\28\29_16056
 2524:std::__2::basic_istream<char\2c\20std::__2::char_traits<char>>::~basic_istream\28\29_16015
@@ -3286,7 +3286,7 @@
 3285:BuildHuffmanTable
 3286:BrotliWarmupBitReader
 3287:BrotliDecoderHuffmanTreeGroupInit
-3288:AAT::track::sanitize\28hb_sanitize_context_t*\29\20const
+3288:AAT::trak::sanitize\28hb_sanitize_context_t*\29\20const
 3289:AAT::ltag::sanitize\28hb_sanitize_context_t*\29\20const
 3290:AAT::StateTable<AAT::ObsoleteTypes\2c\20void>::sanitize\28hb_sanitize_context_t*\2c\20unsigned\20int*\29\20const
 3291:AAT::Lookup<OT::OffsetTo<OT::ArrayOf<AAT::Anchor\2c\20OT::IntType<unsigned\20int\2c\204u>>\2c\20OT::IntType<unsigned\20short\2c\202u>\2c\20false>>::sanitize\28hb_sanitize_context_t*\2c\20void\20const*\29\20const
@@ -3986,7 +3986,7 @@
 3985:hb_blob_t*\20hb_sanitize_context_t::sanitize_blob<OT::OpenTypeFontFile>\28hb_blob_t*\29
 3986:hb_blob_t*\20hb_sanitize_context_t::sanitize_blob<AAT::ltag>\28hb_blob_t*\29
 3987:hb_blob_t*\20hb_data_wrapper_t<hb_face_t\2c\2035u>::call_create<hb_blob_t\2c\20hb_table_lazy_loader_t<OT::COLR\2c\2035u\2c\20true>>\28\29\20const
-3988:hb_blob_t*\20hb_data_wrapper_t<hb_face_t\2c\2032u>::call_create<hb_blob_t\2c\20hb_table_lazy_loader_t<AAT::track\2c\2032u\2c\20false>>\28\29\20const
+3988:hb_blob_t*\20hb_data_wrapper_t<hb_face_t\2c\2032u>::call_create<hb_blob_t\2c\20hb_table_lazy_loader_t<AAT::trak\2c\2032u\2c\20false>>\28\29\20const
 3989:hb_blob_t*\20hb_data_wrapper_t<hb_face_t\2c\2030u>::call_create<hb_blob_t\2c\20hb_table_lazy_loader_t<AAT::kerx\2c\2030u\2c\20false>>\28\29\20const
 3990:hb_blob_t*\20hb_data_wrapper_t<hb_face_t\2c\2019u>::call_create<hb_blob_t\2c\20hb_table_lazy_loader_t<OT::avar\2c\2019u\2c\20true>>\28\29\20const
 3991:hb_aat_layout_remove_deleted_glyphs\28hb_buffer_t*\29
@@ -7479,8 +7479,8 @@
 7478:pop_arg_long_double
 7479:png_read_filter_row_up
 7480:png_read_filter_row_sub
-7481:png_read_filter_row_path_multibyte_pixel
-7482:png_read_filter_row_path_1byte_pixel
+7481:png_read_filter_row_paeth_multibyte_pixel
+7482:png_read_filter_row_paeth_1byte_pixel
 7483:png_read_filter_row_avg
 7484:pass2_no_dither
 7485:pass2_fs_dither
@@ -8748,7 +8748,7 @@
 8747:UpsampleBgrLinePair_C
 8748:UpsampleArgbLinePair_C
 8749:UnresolvedCodepoints\28skia::textlayout::Paragraph&\29
-8750:TransformWHAT_C
+8750:TransformWHT_C
 8751:TransformUV_C
 8752:TransformTwo_C
 8753:TransformDC_C
