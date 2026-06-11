@@ -72,7 +72,7 @@ python ditto.py
 You can also specify the API endpoint by changing:
 
 ```python
-API_BASE_URL = "https://short-url.leapcell.app"
+API_BASE_URL = "https://dit-to.vercel.app/"
 ```
 
 to your local or deployed API URL.
